@@ -1,0 +1,1 @@
+export { useAnimeDetails as default } from './useAnimeDetails';

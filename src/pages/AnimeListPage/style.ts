@@ -1,11 +1,5 @@
 import { css } from '@emotion/react';
 
-export const ContentContainer = css({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, 185px)',
-  justifyContent: 'space-between'
-})
-
 export const Title = css`
   color: rgb(100, 115, 128);
   font-size: 16px;
@@ -17,4 +11,5 @@ export const Title = css`
 
 export const Container = css`
   padding-top: 20px;
+  margin-inline: 20px;
 `;

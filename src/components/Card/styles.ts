@@ -6,7 +6,7 @@ export const Container = css`
 
 export const AnimeImg = css`
   width: 100%;
-  height: 260px;
+  aspect-ratio: 3 / 4;
 `;
 
 export const AnimeTitle = css`

@@ -4,7 +4,7 @@ import { gql } from 'graphql-request';
 import { AnimeListType } from '../types';
 
 const TrendingAnimeList = gql`
-  query TrendingAnimeList($id: Int, $page: Int, $perPage: Int, $search: String, $sort: [MediaSort]) {
+  query TrendingAnimeList($id: Int, $page: Int, $perPage: Int, $search: String) {
     Page (page: $page, perPage: $perPage) {
       pageInfo {
         total
@@ -13,23 +13,29 @@ const TrendingAnimeList = gql`
         hasNextPage
         perPage
       }
-      media (id: $id, search: $search, sort: $sort) {
+      media (id: $id, search: $search) {
         id
         title {
           english
         }
-        type
         coverImage {
           large
         }
+        bannerImage
+        description (asHtml: true)
       }
     }
   }
 `
+interface Deps {
+  id?: string;
+}
 
-export const useTrendingAnimeList = () => {
-  return useQuery('trending-anime-list', async () => {
-    const { Page } = await graphQLClient.request<AnimeListType>(TrendingAnimeList, { sort: ['POPULARITY_DESC', 'TRENDING_DESC'] });
+export const useAnimeDetails = (deps?: Deps) => {
+  const { id } = deps ?? {};
+  const _id = id ? +id : null
+  return useQuery('anime-detail', async () => {
+    const { Page } = await graphQLClient.request<AnimeListType>(TrendingAnimeList, { id: _id });
     return Page;
   });
 }

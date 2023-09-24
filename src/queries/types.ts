@@ -15,6 +15,8 @@ export interface AnimeListType {
       coverImage: {
         large: string;
       }
+      bannerImage: string;
+      description: string;
     }[]
   }
 }

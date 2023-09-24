@@ -1,9 +1,9 @@
-import Card from '@/components/Card'
+import AnimeList, { Loader } from '@/components/AnimeList'
 import { useTrendingAnimeList } from '@/queries/get-anime-list';
-import { ContentContainer, Title, Container } from './style'
+import { Title, Container } from './style'
 import { useMemo } from 'react';
 
-const TrendingAnime = () => {
+const TrendingAnime = ({ title }: { title: string }) => {
   const { data, isLoading, isError } = useTrendingAnimeList();
 
   const cardList = useMemo(() => {
@@ -14,17 +14,10 @@ const TrendingAnime = () => {
     })) ?? [];
   }, [data?.media])
 
-  console.log('data :>> ', cardList);
-  if (isLoading) return;
-
   return (
     <div css={Container}>
-      <h3 css={Title}>Trending Now</h3>
-      <div css={ContentContainer}>
-        {cardList.map(cardItem => (
-          <Card {...cardItem} />  
-        ))}
-      </div>
+      <h3 css={Title}>{title}</h3>
+      {isLoading ? <Loader /> : <AnimeList cardList={cardList} />}
     </div>
   )
 }

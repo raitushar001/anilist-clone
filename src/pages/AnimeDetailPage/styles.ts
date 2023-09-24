@@ -13,8 +13,8 @@ export const LowerSection = css`
   padding-bottom: 25px;
 `;
 
-export const BackgroundImg = css`
-  background-image: url(https://s4.anilist.co/file/anilistcdn/media/anime/banner/145064-S7qAgxf6kMrW.jpg);
+export const BackgroundImg = (imgUrl: string) => css`
+  background-image: url(${imgUrl});
   background-position: 50% 35%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -97,5 +97,5 @@ export const DesktopDiscription = css`
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 10;
+  -webkit-line-clamp: 9;
 `;
