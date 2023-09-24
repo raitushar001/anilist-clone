@@ -13,7 +13,7 @@ const AnimeList = ({ cardList }: Props) => {
   return (
     <div css={ContentContainer}>
       {cardList.map(cardItem => (
-        <Card {...cardItem} />
+        <Card key={cardItem.id} {...cardItem} />
       ))}
     </div>
   )

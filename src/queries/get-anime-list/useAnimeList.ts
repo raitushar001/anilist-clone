@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import graphQLClient from '@/gqlClient';
 import { gql } from 'graphql-request';
 import { AnimeListType } from '../types';
@@ -28,8 +28,12 @@ const TrendingAnimeList = gql`
 `
 
 export const useTrendingAnimeList = () => {
-  return useQuery('trending-anime-list', async () => {
-    const { Page } = await graphQLClient.request<AnimeListType>(TrendingAnimeList, { sort: ['POPULARITY_DESC', 'TRENDING_DESC'] });
-    return Page;
-  });
+  return useInfiniteQuery({
+    queryKey: ['trending-anime-list'],
+    queryFn: async ({ pageParam = 1 }) => {
+      const { Page } = await graphQLClient.request<AnimeListType>(TrendingAnimeList, { sort: ['POPULARITY_DESC', 'TRENDING_DESC'], page: pageParam });
+      return Page;
+    },
+    getNextPageParam: (lastPage) => lastPage.pageInfo.currentPage + 1 ?? undefined,
+  })
 }

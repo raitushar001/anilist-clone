@@ -1,23 +1,28 @@
 import AnimeList, { Loader } from '@/components/AnimeList'
 import { useTrendingAnimeList } from '@/queries/get-anime-list';
 import { Title, Container } from './style'
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import normalizer from './normaliser'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 const TrendingAnime = ({ title }: { title: string }) => {
-  const { data, isLoading, isError } = useTrendingAnimeList();
+  const ref = useRef<HTMLDivElement | null>(null);
+  const entry = useIntersectionObserver(ref, {});
+  const isVisible = !!entry?.isIntersecting;
+  const { data, isLoading, fetchNextPage } = useTrendingAnimeList();
+  useEffect(() => {
+    if (isVisible && !isLoading) fetchNextPage();
+  }, [isVisible])
 
   const cardList = useMemo(() => {
-    return data?.media.map(item => ({
-      title: item.title.english,
-      imageUrl: item.coverImage.large,
-      id: item.id
-    })) ?? [];
-  }, [data?.media])
+    return normalizer(data)
+  }, [data])
 
   return (
     <div css={Container}>
       <h3 css={Title}>{title}</h3>
       {isLoading ? <Loader /> : <AnimeList cardList={cardList} />}
+      <div style={{ height: '2px' }} ref={ref} />
     </div>
   )
 }
