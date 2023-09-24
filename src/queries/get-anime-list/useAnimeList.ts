@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import graphQLClient from '@/gqlClient';
 import { gql } from 'graphql-request';
 import { AnimeListType } from '../types';

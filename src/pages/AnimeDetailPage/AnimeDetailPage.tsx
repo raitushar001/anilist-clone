@@ -15,9 +15,8 @@ const AnimeDetailPage = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const { id } = useParams();
-  const { data, isLoading, isError } = useAnimeDetails({ id });
+  const { data } = useAnimeDetails({ id });
 
-  console.log('data :>> ', data);
   const [anime] = data?.media ?? [];
 
   return (
